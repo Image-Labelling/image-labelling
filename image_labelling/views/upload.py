@@ -4,9 +4,10 @@ from werkzeug.datastructures import FileStorage
 import hashlib
 import os
 from flask import current_app
+from flask_login import LoginManager, login_required
 
 upload = Blueprint('upload', __name__)
-
+login_manager=LoginManager()
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -15,6 +16,7 @@ def allowed_file(filename):
 
 
 @upload.route('/upload')
+@login_required
 def upload_file():
     return render_template('upload.html')
 
@@ -56,3 +58,8 @@ def uploader_form():
             return 'file uploaded successfully'
         else:
             return 'filetype not allowed'
+
+
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    return redirect(url_for('login'))

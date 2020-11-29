@@ -15,10 +15,12 @@ class User(db.Model):
         uuid.uuid4()), primary_key=True)
 
     email = db.Column(db.Unicode(128), unique=True, nullable=False)
-    username = db.Column('username',db.Unicode(128), unique=True, nullable=False)
+    username = db.Column('username', db.Unicode(128),
+                         unique=True, nullable=False)
     password = db.Column(db.Unicode(128))
     password_active = db.Column(db.Boolean, unique=False, default=True)
     user_verified = db.Column(db.Boolean, unique=False, default=False)
+    is_admin = db.Column(db.Boolean, unique=False, default=False)
     registration_date = db.Column(
         db.DateTime, nullable=False, default=datetime.utcnow)
 
@@ -38,6 +40,11 @@ class User(db.Model):
 
     @property
     def is_authenticated(self):
+        return self._authenticated
+
+    def authenticate(self, password):
+        check = self.verify_password(password)
+        self._authenticated = check
         return self._authenticated
 
 

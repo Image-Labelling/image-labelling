@@ -1,8 +1,5 @@
-from flask import Blueprint, render_template, redirect, request
-from flask_login import (current_user, login_user, logout_user,
-                         login_required)
-
-
+from flask import Blueprint, render_template, redirect, request, current_app
+from flask_login import current_user, login_user, logout_user, login_required, LoginManager
 from image_labelling.database import db, User
 from image_labelling.form import LoginForm
 
@@ -27,3 +24,13 @@ def login():
 def logout():
     logout_user()
     return redirect('/')
+
+
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    user = User.query.get(user_id)
+    if user is not None:
+        user._authenticated = True
+    return user

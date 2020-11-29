@@ -1,0 +1,8 @@
+<h1>Image-labelling</h1>
+
+{% if current_user.is_authenticated %}
+Hi {{ current_user.username }}! <a href="/logout">Log out</a>
+
+{% else %}
+Hi Anonymous, <a href="/login">Log in</a>
+{% endif %}

@@ -1,9 +1,8 @@
 import functools
 from flask_login import current_user, LoginManager
 from image_labelling.database import User
-
-
-login_manager = LoginManager()
+from flask import current_app
+from . import login_manager
 
 
 def admin_required(func):
@@ -14,11 +13,3 @@ def admin_required(func):
             return login_manager.unauthorized()
         return func(*args, **kw)
     return _admin_required
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    user = User.query.get(user_id)
-    if user is not None:
-        user._authenticated = True
-    return user

@@ -5,9 +5,11 @@ import hashlib
 import os
 from flask import current_app
 from flask_login import LoginManager, login_required
+from .. import login_manager
 
 upload = Blueprint('upload', __name__)
-login_manager=LoginManager()
+# login_manager=LoginManager()
+
 
 def allowed_file(filename):
     return '.' in filename and \

@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template
-
-from image_labelling.database import db, User
-from image_labelling.auth import current_user
-
+from flask_login import current_user
+# from image_labelling.database import User
+# from image_labelling.auth import current_user
+from .. import login_manager
 
 home = Blueprint('home', __name__)
 
@@ -14,4 +14,4 @@ def index():
     else:
         user_id = 'None'
 
-    return user_id
+    return render_template("index.html", current_user=current_user)

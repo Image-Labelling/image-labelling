@@ -1,14 +1,6 @@
-{% extends "bootstrap/base.html" %}
-{% block title %}Image-labelling{% endblock %}
-
-{% block navbar %}
-<div class="navbar navbar-fixed-top">
-  <!-- ... -->
-</div>
-{% endblock %}
+{% extends "base.html" %}
 
 {% block content %}
-<h1>Image-labelling</h1>
 
 {% if current_user.is_authenticated %}
 Hi {{ current_user.username }}! <a href="/logout">Log out</a>
@@ -16,4 +8,5 @@ Hi {{ current_user.username }}! <a href="/logout">Log out</a>
 {% else %}
 Hi Anonymous, <a href="/login">Log in</a>
 {% endif %}
+
 {% endblock %}

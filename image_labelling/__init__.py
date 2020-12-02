@@ -27,6 +27,8 @@ def create_app():
     app.config['MAX_CONTENT_PATH'] = 100 * 1024 * 1024
     app.config['ALLOWED_EXTENSIONS'] = {
         'jp2', 'jpf', 'jpx', 'jpm', 'jpe', 'jif', 'jfif', 'png', 'jpg', 'jpeg', 'gif', 'webp'}
+    app.add_url_rule('/favicon.ico',
+                 redirect_to=url_for('static', filename='favicon.ico'))
 
     # Application Configuration
     # app.config.from_object('config.Config')

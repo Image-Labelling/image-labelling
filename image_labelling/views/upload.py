@@ -5,7 +5,8 @@ import hashlib
 import os
 from flask import current_app
 from flask_login import LoginManager, login_required
-from .. import login_manager
+# from .. import login_manager
+# from . import login_manager
 
 upload = Blueprint('upload', __name__)
 # login_manager=LoginManager()
@@ -62,6 +63,4 @@ def uploader_form():
             return 'filetype not allowed'
 
 
-@login_manager.unauthorized_handler
-def unauthorized_callback():
-    return redirect(url_for('login'))
+

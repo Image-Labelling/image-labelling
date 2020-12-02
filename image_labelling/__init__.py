@@ -1,16 +1,15 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from flask import Flask
+from flask import Flask, url_for
 from flask_bootstrap import Bootstrap
+
 # from sqlalchemy import create_engine
 # from .auth import login_manager
 # from .database import db
 
 db = SQLAlchemy()
 login_manager = LoginManager()
-
-from image_labelling.views import blueprints
 
 
 def create_app():
@@ -27,8 +26,6 @@ def create_app():
     app.config['MAX_CONTENT_PATH'] = 100 * 1024 * 1024
     app.config['ALLOWED_EXTENSIONS'] = {
         'jp2', 'jpf', 'jpx', 'jpm', 'jpe', 'jif', 'jfif', 'png', 'jpg', 'jpeg', 'gif', 'webp'}
-    app.add_url_rule('/favicon.ico',
-                 redirect_to=url_for('static', filename='favicon.ico'))
 
     # Application Configuration
     # app.config.from_object('config.Config')
@@ -38,9 +35,12 @@ def create_app():
     login_manager.init_app(app)
     login_manager.login_view = 'login'
 
+    from image_labelling.views import blueprints
+
     for bp in blueprints:
         app.register_blueprint(bp)
         bp.app = app
+
 
     db.create_all(app=app)
 

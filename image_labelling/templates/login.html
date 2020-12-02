@@ -1,22 +1,27 @@
-<html>
+{% extends "bootstrap/base.html" %}
+{% block title %}Image-labelling{% endblock %}
 
-<body>
-  <form action="" method="POST">
-    {{ form.hidden_tag() }}
-    <dl>
-      {% for field in form.display %}
-      <dt>{{ form[field].label }}</dt>
-      <dd>{{ form[field]() }}</dd>
-      {% if form[field].errors %}
-      {% for e in form[field].errors %}
-      <p class="help-block">{{ e }}</p>
-      {% endfor %}
-      {% endif %}
-      {% endfor %}
-    </dl>
-    <p>
-      <input type=submit value="Publish">
-  </form>
-</body>
+{% block navbar %}
+<div class="navbar navbar-fixed-top">
+  <!-- ... -->
+</div>
+{% endblock %}
 
-</html>
+{% block content %}
+<form action="" method="POST">
+  {{ form.hidden_tag() }}
+  <dl>
+    {% for field in form.display %}
+    <dt>{{ form[field].label }}</dt>
+    <dd>{{ form[field]() }}</dd>
+    {% if form[field].errors %}
+    {% for e in form[field].errors %}
+    <p class="help-block">{{ e }}</p>
+    {% endfor %}
+    {% endif %}
+    {% endfor %}
+  </dl>
+  <p>
+    <input type=submit value="Publish">
+</form>
+{% endblock %}

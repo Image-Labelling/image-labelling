@@ -28,11 +28,12 @@ class User(UserMixin, db.Model):
         self._authenticated = False
 
     def set_password(self, password):
-        self.password = bcrypt.hashpw(password, self.password)
+        self.password = bcrypt.hashpw(
+            password.encode('utf-8'), bcrypt.gensalt())
 
     def verify_password(self, password):
-        password_hash = bcrypt.hashpw(password, self.password)
-        return self.password == password_hash
+        return bcrypt.checkpw(password.encode(
+            'utf-8'), self.password)
 
     def get_id(self):
         return self.id
@@ -40,22 +41,22 @@ class User(UserMixin, db.Model):
     def get(user_id):
         return User.query.get(id)
 
-    # @property
-    # def is_authenticated(self):
-    #     return self._authenticated
+    @property
+    def is_authenticated(self):
+        return self._authenticated
 
     def authenticate(self, password):
         check = self.verify_password(password)
         self._authenticated = check
         return self._authenticated
 
-    # @property
-    # def is_active(self):
-    #     return self._active
+    @property
+    def is_active(self):
+        return self._active
 
-    # @property
-    # def is_anonymous(self):
-    #     return self._anonymous
+    @property
+    def is_anonymous(self):
+        return self._anonymous
 
     def __repr__(self):
         return '<User {}>'.format(self.username)

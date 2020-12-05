@@ -4,6 +4,7 @@ from flask_login import LoginManager
 from flask import Flask, url_for
 from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
+from flask_principal import Principal
 
 # from sqlalchemy import create_engine
 # from .auth import login_manager
@@ -12,6 +13,7 @@ from flask_migrate import Migrate
 db = SQLAlchemy()
 login_manager = LoginManager()
 migrate = Migrate()
+principal = Principal()
 
 
 def create_app():
@@ -37,13 +39,13 @@ def create_app():
     login_manager.init_app(app)
     login_manager.login_view = 'login'
     migrate.init_app(app, db)
+    principal.init_app(app)
 
     from image_labelling.views import blueprints
 
     for bp in blueprints:
         app.register_blueprint(bp)
         bp.app = app
-
 
     db.create_all(app=app)
 

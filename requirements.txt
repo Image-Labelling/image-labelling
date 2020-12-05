@@ -20,3 +20,4 @@ flask_script
 flask_migrate
 psycopg2-binary
 python-magic
+flask-principal

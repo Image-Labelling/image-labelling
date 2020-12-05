@@ -4,6 +4,7 @@ from image_labelling.form import UserForm
 # from image_labelling.auth import admin_required
 from .. import db
 from image_labelling.database import User
+import bcrypt
 
 users = Blueprint('users', __name__)
 
@@ -22,6 +23,7 @@ def _register():
         if form.validate_on_submit():
             new_user = User()
             form.populate_obj(new_user)
+            new_user.password = bcrypt.hashpw(new_user.password.encode('utf-8'), bcrypt.gensalt())
             db.session.add(new_user)
             db.session.commit()
             return redirect('/users')

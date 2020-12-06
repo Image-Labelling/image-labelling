@@ -1,8 +1,9 @@
 import functools
 from flask_login import current_user, LoginManager
 from image_labelling.database import User
-from flask import current_app
+# from flask import current_app
 from . import login_manager
+from flask import redirect
 
 
 def admin_required(func):

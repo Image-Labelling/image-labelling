@@ -1,6 +1,6 @@
 from .. import login_manager, db
 from ..database import User
-
+from flask import redirect, url_for
 
 from .home import home
 from .users import users
@@ -18,14 +18,4 @@ def load_user(id):
 
 @login_manager.unauthorized_handler
 def unauthorized_callback():
-    return redirect(url_for('login'))
-
-
-def admin_required(func):
-    @functools.wraps(func)
-    def _admin_required(*args, **kw):
-        admin = current_user.is_authenticated and current_user.is_admin
-        if not admin:
-            return app.login_manager.unauthorized()
-        return func(*args, **kw)
-    return _admin_required
+    return redirect(url_for('auth.login'))

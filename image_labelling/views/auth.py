@@ -24,6 +24,7 @@ def login():
                 return abort(400)
             return redirect(next or url_for('home.index'))
         # session['user_id'] = user.id
+    flash('Wrong username or password.')
     return render_template('login.html', form=form)
 
 

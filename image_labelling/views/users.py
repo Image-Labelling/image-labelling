@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, request, Flask
+from flask import Blueprint, redirect, render_template, request, Flask, flash
 # from image_labelling.database import User
 from image_labelling.form import UserForm
 # from image_labelling.auth import admin_required
@@ -29,6 +29,7 @@ def _register():
                 new_user.password.encode('utf-8'), bcrypt.gensalt())
             db.session.add(new_user)
             db.session.commit()
+            flash("Sucessfully registered!")
             return redirect('/')
 
     return render_template('register.html', form=form)

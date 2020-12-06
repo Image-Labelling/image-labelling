@@ -29,6 +29,6 @@ def _register():
                 new_user.password.encode('utf-8'), bcrypt.gensalt())
             db.session.add(new_user)
             db.session.commit()
-            return redirect('/users')
+            return redirect('/')
 
     return render_template('register.html', form=form)

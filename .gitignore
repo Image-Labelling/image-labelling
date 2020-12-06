@@ -130,3 +130,6 @@ dmypy.json
 
 # Production data directory
 image_labelling/data
+
+#VSCode config
+.vscode/

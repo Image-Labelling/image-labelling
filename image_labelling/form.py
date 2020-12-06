@@ -13,6 +13,6 @@ class UserForm(FlaskForm):
     """Form for creating users."""
     email = StringField(label='Email', validators=[DataRequired()])
     username = StringField(label='Username', validators=[DataRequired()])
-    password = StringField(label='Password', validators=[DataRequired()])
+    password = PasswordField(label='Password', validators=[DataRequired()])
 
     display = ['email', 'username', 'password']

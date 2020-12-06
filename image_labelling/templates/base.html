@@ -5,6 +5,10 @@
 {% block head %}
 {{super()}}
 {{fixes.ie8()}}
+<link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+<link rel="manifest" href="/static/site.webmanifest">
 {%- endblock %}
 
 {% block styles -%}
@@ -12,12 +16,14 @@
 <link rel="stylesheet" href="{{url_for('static', filename='bootstrap.min.css')}}">
 {% endblock %}
 
+{% block body %}
+
 {% block navbar %}
 
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">Image-Labelling</a>
+      <a class="navbar-brand" href="/">Image-Labelling</a>
     </div>
     <ul class="nav navbar-nav">
       <li class="active"><a href="/">Home</a></li>
@@ -41,4 +47,22 @@
     </ul>
   </div>
 </nav>
+{% endblock %}
+
+
+
+
+
+
+<div class="container">
+  {% for message in get_flashed_messages() %}
+  <div class="alert alert-warning alert-dismissible show" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>
+    {{ message }}
+  </div>
+  {% endfor %}
+</div>
+
+
+{% block content %}{% endblock %}
 {% endblock %}

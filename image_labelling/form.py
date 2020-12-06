@@ -4,8 +4,8 @@ from wtforms.fields import StringField, PasswordField
 
 
 class LoginForm(FlaskForm):
-    email = StringField('email', validators=[DataRequired()])
-    password = PasswordField('password', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
     display = ['email', 'password']
 
 

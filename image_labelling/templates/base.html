@@ -3,66 +3,66 @@
 {% import "bootstrap/fixes.html" as fixes %}
 
 {% block head %}
-{{super()}}
-{{fixes.ie8()}}
-<link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
-<link rel="manifest" href="/static/site.webmanifest">
+  {{ super() }}
+  {{ fixes.ie8() }}
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+  <link rel="manifest" href="/static/site.webmanifest">
 {%- endblock %}
 
 {% block styles -%}
-{{super()}}
-<link rel="stylesheet" href="{{url_for('static', filename='bootstrap.min.css')}}">
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
 {% endblock %}
 
 {% block body %}
 
-{% block navbar %}
+  {% block navbar %}
 
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="/">Image-Labelling</a>
-    </div>
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="/">Home</a></li>
-      <li><a href="#">Images</a></li>
-      <li><a href="#">Labels</a></li>
-      <li><a href="#">Profile</a></li>
-    </ul>
-    <form class="navbar-form navbar-left" action="/action_page.php">
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search" name="search">
-        <div class="input-group-btn">
-          <button class="btn btn-default" type="submit">
-            <i class="glyphicon glyphicon-search"></i>
-          </button>
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">Image-Labelling</a>
         </div>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/">Home</a></li>
+          <li><a href="#">Images</a></li>
+          <li><a href="#">Labels</a></li>
+          <li><a href="#">Profile</a></li>
+        </ul>
+        <form class="navbar-form navbar-left" action="/label">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search a label" name="search">
+            <div class="input-group-btn">
+              <button class="btn btn-default" type="submit">
+                <i class="glyphicon glyphicon-search"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+          <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        </ul>
       </div>
-    </form>
-    <ul class="nav navbar-nav navbar-right">
-      <li><a href="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-      <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-    </ul>
+    </nav>
+  {% endblock %}
+
+
+
+
+
+
+  <div class="container">
+    {% for message in get_flashed_messages() %}
+      <div class="alert alert-warning alert-dismissible show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>
+        {{ message }}
+      </div>
+    {% endfor %}
   </div>
-</nav>
-{% endblock %}
 
 
-
-
-
-
-<div class="container">
-  {% for message in get_flashed_messages() %}
-  <div class="alert alert-warning alert-dismissible show" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>
-    {{ message }}
-  </div>
-  {% endfor %}
-</div>
-
-
-{% block content %}{% endblock %}
+  {% block content %}{% endblock %}
 {% endblock %}

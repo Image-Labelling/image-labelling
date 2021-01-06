@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class=container>
-  <form action="" method="POST">
-    {{ form.hidden_tag() }}
-    <dl>
-      {% for field in form.display %}
-      <dt>{{ form[field].label }}</dt>
-      <dd>{{ form[field]() }}</dd>
-      {% if form[field].errors %}
-      {% for e in form[field].errors %} <p>{{ e }}</p> {% endfor %}
-      {% endif %}
-      {% endfor %}
-    </dl>
-    <p>
-      <input type=submit value="Register">
-    </p>
-  </form>
-</div>
+  <div class=container>
+    <form action="" method="POST">
+      {{ form.hidden_tag() }}
+      <dl>
+        {% for field in form.display %}
+          <dt>{{ form[field].label }}</dt>
+          <dd>{{ form[field]() }}</dd>
+          {% if form[field].errors %}
+            {% for e in form[field].errors %} <p>{{ e }}</p> {% endfor %}
+          {% endif %}
+        {% endfor %}
+      </dl>
+      <p>
+        <input type=submit value="Register">
+      </p>
+    </form>
+  </div>
 {% endblock %}

@@ -131,5 +131,8 @@ dmypy.json
 # Production data directory
 image_labelling/data
 
-#VSCode config
+# VSCode config
 .vscode/
+
+# PyCharm files
+.idea/

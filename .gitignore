@@ -136,3 +136,6 @@ image_labelling/data
 
 # PyCharm files
 .idea/
+
+# Session data
+.flask_session/

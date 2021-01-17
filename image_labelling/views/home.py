@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template
 from flask_login import current_user
+
 # from image_labelling.database import User
 # from image_labelling.auth import current_user
 # from .. import login_manager

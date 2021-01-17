@@ -1,10 +1,10 @@
-from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from flask import Flask, url_for
+from flask import Flask, url_for, session
 from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_principal import Principal
+from flask_session import Session
 
 # from sqlalchemy import create_engine
 # from .auth import login_manager
@@ -14,11 +14,12 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 migrate = Migrate()
 principal = Principal()
-
+session = Session()
 
 def create_app():
     """Construct the core app object."""
     app = Flask(__name__, instance_relative_config=False)
+
 
     Bootstrap(app)
     app.config['FLASK_APP'] = 'wsgi.py'
@@ -26,10 +27,11 @@ def create_app():
     app.config['SECRET_KEY'] = f'9e7a1dfc1e156f9a88f63feff2925dd7360db188f2ef9830'
     app.config['DATABASE_CONNECTION_URI'] = f'postgresql+psycopg2://postgres:devmode@localhost:5432/devdb'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/devdb'
-    app.config['UPLOAD_FOLDER'] = './data/'
+    app.config['UPLOAD_FOLDER'] = './image_labelling/data/'
     app.config['MAX_CONTENT_PATH'] = 100 * 1024 * 1024
     app.config['ALLOWED_EXTENSIONS'] = {
         'jp2', 'jpf', 'jpx', 'jpm', 'jpe', 'jif', 'jfif', 'png', 'jpg', 'jpeg', 'gif', 'webp'}
+    app.config['SESSION_TYPE'] = 'filesystem'
 
     # Application Configuration
     # app.config.from_object('config.Config')
@@ -40,6 +42,7 @@ def create_app():
     login_manager.login_view = 'login'
     migrate.init_app(app, db)
     principal.init_app(app)
+    session.init_app(app)
 
     from image_labelling.views import blueprints
 

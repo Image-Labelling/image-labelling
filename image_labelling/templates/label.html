@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class=container>
+  <form action="" method="POST">
+    <dl>
+      {% from "_formhelpers.html" import render_field %}
+      {{render_field(form.parent)}}
+      {{render_field(form.name)}}
+      {{ render_field(form.language) }}
+    </dl>
+
+    <!-- {{ form.hidden_tag() }}
+      <dl>
+        {% for field in form.display %}
+          <dt>{{ form[field].label }}</dt>
+          <dd>{{ form[field]() }}</dd>
+          {% if form[field].errors %}
+            {% for e in form[field].errors %}
+              <p class="help-block">{{ e }}</p>
+            {% endfor %}
+          {% endif %}
+        {% endfor %}
+      </dl> -->
+    <p>
+      <input type=submit value="Add label">
+  </form>
+</div>
+{% endblock %}

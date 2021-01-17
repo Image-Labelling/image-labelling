@@ -1,14 +1,24 @@
-from flask import Flask, render_template, request, Blueprint, render_template, flash
-from werkzeug.utils import secure_filename
-from werkzeug.datastructures import FileStorage
 import hashlib
 import os
+import errno
+
 from flask import current_app
-from flask_login import LoginManager, login_required
+from flask import request, Blueprint, render_template, flash, redirect, session
+from flask_login import login_required
+from werkzeug.utils import secure_filename
+from PIL import Image as PILImage
+
+from ..database import Image, db
+
 # from .. import login_manager
 # from . import login_manager
 
 upload = Blueprint('upload', __name__)
+
+thumbnail_dir = 'thumb'
+thumbnail_size = (256, 256)
+
+
 # login_manager=LoginManager()
 
 
@@ -19,7 +29,7 @@ def allowed_file(filename):
 
 
 @upload.route('/upload')
-@login_required
+# @login_required
 def upload_file():
     return render_template('upload.html')
 
@@ -45,6 +55,14 @@ def uploader_form():
             path_segment_two = img_key[0:4]
             path_segment_three = img_key[4:8]
 
+            _exists = Image.query.filter_by(id=img_key).first()
+            if _exists:
+                return 'file already exists'
+
+            image = Image(id=img_key, user_id=session['user_id'])
+            db.session.add(image)
+            db.session.commit()
+
             directory_path = os.path.join(
                 current_app.config['UPLOAD_FOLDER'], path_segment_one, path_segment_two, path_segment_three)
 
@@ -56,11 +74,22 @@ def uploader_form():
                         raise
 
             f.seek(0)
-            f.save(os.path.join(directory_path,
-                                secure_filename(img_key + '.' + extension)))
+            full_file_path = os.path.join(directory_path, secure_filename(img_key))
+            f.save(full_file_path)
+
+            try:
+                thumbnail_path = os.path.join(
+                    current_app.config['UPLOAD_FOLDER'], thumbnail_dir, path_segment_one, path_segment_two,
+                    path_segment_three)
+                im = PILImage.open(full_file_path)
+                im.thumbnail(thumbnail_size)
+                if not os.path.exists(thumbnail_path):
+                    os.makedirs(thumbnail_path)
+                im.save(os.path.join(thumbnail_path, secure_filename(img_key + '.png')), "png")
+            except IOError as e:
+                print(repr(e))
+                print("Cannot create thumbnail")
+
             return 'file uploaded successfully'
         else:
             return 'filetype not allowed'
-
-
-

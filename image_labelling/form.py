@@ -1,11 +1,12 @@
 from flask_wtf import FlaskForm
 from wtforms.validators import DataRequired
-from wtforms.fields import StringField, PasswordField
+from wtforms.fields import StringField, PasswordField, BooleanField, SelectField
 
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
+    remember_me = BooleanField("Keep me logged in")
     display = ['email', 'password']
 
 
@@ -16,3 +17,10 @@ class UserForm(FlaskForm):
     password = PasswordField(label='Password', validators=[DataRequired()])
 
     display = ['email', 'username', 'password']
+
+
+class LabelForm(FlaskForm):
+    """Form for creating new labels."""
+    parent = StringField(label="Parent label")
+    name = StringField(label="Label", validators=[DataRequired()])
+    language = SelectField(label="Language", choices=["English", "Polish"])

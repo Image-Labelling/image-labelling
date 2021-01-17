@@ -1,10 +1,11 @@
-from flask import Blueprint, redirect, render_template, request, Flask, flash
+import bcrypt
+from flask import Blueprint, redirect, render_template, request, flash
+
+from image_labelling.database import User
 # from image_labelling.database import User
 from image_labelling.form import UserForm
 # from image_labelling.auth import admin_required
 from .. import db
-from image_labelling.database import User
-import bcrypt
 from ..auth import admin_required
 
 users = Blueprint('users', __name__)

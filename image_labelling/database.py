@@ -81,10 +81,10 @@ class Segmentation(db.Model):
     image_id = db.Column(db.Text(length=36),
                          db.ForeignKey('image.id'), nullable=False)
     _obscured = db.Column(db.Boolean, unique=False, default=False)
-    bounding_box_x = db.Column('bounding_box_x', db.Integer(), nullable=False, unique=False)
-    bounding_box_y = db.Column('bounding_box_y', db.Integer(), nullable=False, unique=False)
-    bounding_box_width = db.Column('bounding_box_width', db.Integer(), nullable=False, unique=False)
-    bounding_box_height = db.Column('bounding_box_height', db.Integer(), nullable=False, unique=False)
+    bounding_box_x = db.Column('bounding_box_x', db.Integer(), nullable=True, unique=False)
+    bounding_box_y = db.Column('bounding_box_y', db.Integer(), nullable=True, unique=False)
+    bounding_box_width = db.Column('bounding_box_width', db.Integer(), nullable=True, unique=False)
+    bounding_box_height = db.Column('bounding_box_height', db.Integer(), nullable=True, unique=False)
 
 
 class Point(db.Model):

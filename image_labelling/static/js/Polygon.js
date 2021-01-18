@@ -171,3 +171,17 @@ function draw_polygon(_draw) {
         }
     }
 }
+
+function submit() {
+    if (!_closed) {
+        alert("Polygon is not completed yet.")
+        return false;
+    }
+    // var vertices_data = serialize();
+    $.ajax({
+        type: 'post',
+        contentType: 'application/json',
+        data: JSON.stringify(vertices)
+    })
+    $("#btnSubmit").attr("disabled", true);
+}

@@ -50,10 +50,9 @@ window.addEventListener('click', clickListener, false);</script>
 <div class=container>
   <button onclick="undo()">Undo</button>
   <button onclick="reset_all()">Reset</button>
-  <button>Submit</button>
+  <button onclick="submit()" id="btnSubmit">Submit</button>
   <br/>
   <canvas
-{#    data-imgsrc="data/1/1578/31f8/157831f80464349b5015d52f1438afd04d184ba3ed11d8c3bc509ee7a83bc3bc2c2333e4ad3d99b2f029573d08976abd404e3f41e97fe0536837deb37d35066b.png"#}
     data-imgsrc="data/{{ image_id[0] }}/{{ image_id[0:4] }}/{{ image_id[4:8] }}/{{ image_id }}"
           id="labelCanvas" oncontextmenu="return false;"
     onmousedown="new_segment(event)" style="cursor:crosshair"></canvas>

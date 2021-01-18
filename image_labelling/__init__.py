@@ -5,12 +5,25 @@ from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_principal import Principal
 from flask_session import Session
+from sqlalchemy import MetaData
+
 
 # from sqlalchemy import create_engine
 # from .auth import login_manager
 # from .database import db
 
-db = SQLAlchemy()
+convention = {
+    "ix": 'ix_%(column_0_label)s',
+    "uq": "uq_%(table_name)s_%(column_0_name)s",
+    "ck": "ck_%(table_name)s_%(constraint_name)s",
+    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+    "pk": "pk_%(table_name)s"
+}
+
+metadata = MetaData(naming_convention=convention)
+
+
+db = SQLAlchemy(metadata=metadata)
 login_manager = LoginManager()
 migrate = Migrate()
 principal = Principal()
@@ -40,7 +53,7 @@ def create_app():
     db.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = 'login'
-    migrate.init_app(app, db)
+    migrate.init_app(app, db, render_as_batch=True)
     principal.init_app(app)
     session.init_app(app)
 

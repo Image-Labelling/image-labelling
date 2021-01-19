@@ -9,9 +9,10 @@ from .label import label
 from .create_polygon import create_polygon
 from .send_files import send_file
 from .howto import howto
+from .profile import profile
+from .image import image
 
-blueprints = [home, auth, users, upload, label, create_polygon, send_file, howto]
-
+blueprints = [home, auth, users, upload, label, create_polygon, send_file, howto, profile, image]
 
 # @login_manager.user_loader
 # def load_user(_id):

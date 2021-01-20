@@ -30,3 +30,16 @@ def label_change():
         return 'Make new'
 
     return '500 BAD PATH'
+
+
+@label.route('/label_search')
+def label_search():
+    if 'text' in request.args:
+        return "Here's label " + request.args.get('text')
+    else:
+        return "I can't search for nothing"
+
+
+@label.route('/label_list')
+def label_list():
+    return "Here's some labels"

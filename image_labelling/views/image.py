@@ -11,3 +11,8 @@ def show_image():
 
     else:
         return "Ya need an image id, dingus."
+
+
+@image.route('/image_list')
+def image_list():
+    return "Here's 20 images"

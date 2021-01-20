@@ -1,14 +1,14 @@
 import uuid
-import bcrypt
-from sqlalchemy.dialects.postgresql import UUID
 from datetime import datetime
-from . import db, login_manager
+
+import bcrypt
 from flask_login import UserMixin
+
+from . import db
 
 
 class User(UserMixin, db.Model):
     __tablename__ = 'user'
-    # id = db.Column(UUID(as_uuid=True), primary_key=True,                   default=uuid.uuid4, unique=True, nullable=False)
     id = db.Column('id', db.Unicode(128), default=lambda: str(
         uuid.uuid4()), primary_key=True)
 
@@ -35,12 +35,6 @@ class User(UserMixin, db.Model):
         return bcrypt.checkpw(password.encode(
             'utf-8'), self.password)
 
-    # def get_id(self):
-    #     return str(self.id)
-    #
-    # def get(self, user_id):
-    #     return User.query.get(user_id)
-
     @property
     def is_authenticated(self):
         return self._authenticated
@@ -65,16 +59,16 @@ class User(UserMixin, db.Model):
 class Image(db.Model):
     __tablename__ = 'image'
     id = db.Column('id', db.Text(length=36), default=lambda: str(uuid.uuid4()), primary_key=True)
-    user_id = db.Column(db.Unicode(128), db.ForeignKey('user.id'), nullable=True)
-    license = db.Column(db.Unicode(128), nullable=True, unique=False)
-    group_id = db.Column(db.Unicode(128), db.ForeignKey('image_group.id'), nullable=True)
+    user_id = db.Column('user_id', db.Unicode(128), db.ForeignKey('user.id'), nullable=True)
+    license = db.Column('license_type', db.Unicode(128), nullable=True, unique=False)
+    group_id = db.Column('group_id', db.Unicode(128), db.ForeignKey('image_group.id'), nullable=True)
 
 
 class Segmentation(db.Model):
     __tablename__ = 'segmentation'
     id = db.Column('id', db.Text(length=36), default=lambda: str(uuid.uuid4()), primary_key=True)
-    image_id = db.Column(db.Text(length=36), db.ForeignKey('image.id'), nullable=False)
-    _obscured = db.Column(db.Boolean, unique=False, default=False)
+    image_id = db.Column('image_id', db.Text(length=36), db.ForeignKey('image.id'), nullable=False)
+    _obscured = db.Column('is_obscured', db.Boolean, unique=False, default=False)
     bounding_box_x = db.Column('bounding_box_x', db.Integer(), nullable=True, unique=False)
     bounding_box_y = db.Column('bounding_box_y', db.Integer(), nullable=True, unique=False)
     bounding_box_width = db.Column('bounding_box_width', db.Integer(), nullable=True, unique=False)
@@ -84,7 +78,8 @@ class Segmentation(db.Model):
 class Point(db.Model):
     __tablename__ = 'point'
     id = db.Column('id', db.Text(length=36), default=lambda: str(uuid.uuid4()), primary_key=True)
-    segmentation_id = db.Column(db.Text(length=36), db.ForeignKey('segmentation.id'), nullable=False)
+    segmentation_id = db.Column('segmentation_id', db.Text(length=36), db.ForeignKey('segmentation.id'),
+                                nullable=False)
     order = db.Column('order', db.Integer(), nullable=False, unique=False)
     x_coord = db.Column('x', db.Integer(), nullable=False, unique=False)
     y_coord = db.Column('y', db.Integer(), nullable=False, unique=False)
@@ -136,5 +131,5 @@ class CastVotes(db.Model):
     __tablename__ = 'cast_votes'
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
     vote_id = db.Column('vote_id', db.Integer, db.ForeignKey('vote_list.id'), nullable=False)
-    user_id = db.Column(db.Unicode(128), db.ForeignKey('user.id'), nullable=False)
-    support = db.Column(db.Boolean, nullable=False)
+    user_id = db.Column('user_id', db.Unicode(128), db.ForeignKey('user.id'), nullable=False)
+    support = db.Column('in_support', db.Boolean, nullable=False)

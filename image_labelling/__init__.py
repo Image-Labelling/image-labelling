@@ -15,7 +15,7 @@ from sqlalchemy import MetaData
 convention = {
     "ix": 'ix_%(column_0_label)s',
     "uq": "uq_%(table_name)s_%(column_0_name)s",
-    "ck": "ck_%(table_name)s_%(constraint_name)s",
+    "ck": "ck_%(table_name)s_%(column_0_name)s",
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
     "pk": "pk_%(table_name)s"
 }
@@ -29,10 +29,10 @@ migrate = Migrate()
 principal = Principal()
 session = Session()
 
+
 def create_app():
     """Construct the core app object."""
     app = Flask(__name__, instance_relative_config=False)
-
 
     Bootstrap(app)
     app.config['FLASK_APP'] = 'wsgi.py'

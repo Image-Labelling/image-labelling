@@ -2,5 +2,16 @@
 
 {% block content %}
   <div class=container>
+    <p>User <strong>{{ username }}</strong> uploaded <strong>{{ upload_count }}</strong> images.</p>
+    <p>Recent uploads</p>
+    <div style="width: 100%; overflow: hidden;">
+      {% for image in uploaded_images.items %}
+        <div class="well" style="width: 300px; float: left; height: 300px">
+          <a href="/image?image_id={{ image.id }}">
+            <img src="data/thumb/{{ image.id[0] }}/{{ image.id[0:4] }}/{{ image.id[4:8] }}/{{ image.id }}.png">
+          </a>
+        </div>
+      {% endfor %}
+    </div>
   </div>
 {% endblock %}

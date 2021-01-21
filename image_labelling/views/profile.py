@@ -1,6 +1,8 @@
-from flask import Blueprint, redirect, render_template, request, flash
-
+from flask import Blueprint, render_template, request
 from flask_login import current_user
+
+from ..database import Image
+from ..database import User
 
 profile = Blueprint('profile', __name__)
 
@@ -15,4 +17,9 @@ def show_profile():
         else:
             _user_id = '0'
 
-    return _user_id
+    username = User.query.filter_by(id=_user_id).first().username
+    upload_count = Image.query.filter_by(user_id=_user_id).count()
+    uploaded_images = Image.query.filter_by(user_id=_user_id).paginate(page=1, per_page=5)
+
+    return render_template("profile.html", username=username, upload_count=upload_count,
+                           uploaded_images=uploaded_images)

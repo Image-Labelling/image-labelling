@@ -94,14 +94,14 @@ class License(db.Model):
 
 class Label(db.Model):
     __tablename__ = 'label'
-    id = db.Column('id', db.Unicode(128), primary_key=True)
+    id = db.Column('id', db.Unicode(128), default=lambda: str(uuid.uuid4()), primary_key=True)
     parent_id = db.Column('parent_id', db.Unicode(128), db.ForeignKey('label.id'))
     category = db.Column('category', db.Unicode(128), default='1')
 
 
 class LabelEng(db.Model):
     __tablename__ = 'label_eng'
-    id = db.Column('id', db.Unicode(128), primary_key=True)
+    id = db.Column('id', db.Unicode(128), default=lambda: str(uuid.uuid4()), primary_key=True)
     label_id = db.Column('label_id', db.Unicode(128),
                          db.ForeignKey('label.id'))
     text = db.Column('text', db.Unicode(128), nullable=False)
@@ -109,7 +109,7 @@ class LabelEng(db.Model):
 
 class LabelPol(db.Model):
     __tablename__ = 'label_pol'
-    id = db.Column('id', db.Unicode(128), primary_key=True)
+    id = db.Column('id', db.Unicode(128), default=lambda: str(uuid.uuid4()), primary_key=True)
     label_id = db.Column('label_id', db.Unicode(128),
                          db.ForeignKey('label.id'))
     text = db.Column('text', db.Unicode(128), nullable=False)
@@ -117,7 +117,7 @@ class LabelPol(db.Model):
 
 class ImageGroup(db.Model):
     __tablename__ = 'image_group'
-    id = db.Column('id', db.Unicode(128), primary_key=True)
+    id = db.Column('id', db.Unicode(128), default=lambda: str(uuid.uuid4()), primary_key=True)
 
 
 class VoteList(db.Model):

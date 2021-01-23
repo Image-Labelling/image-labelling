@@ -1,7 +1,6 @@
-from flask import Flask, render_template, request, Blueprint, render_template, flash, redirect
-from flask import current_app
-from flask_login import LoginManager, login_required
-from image_labelling.database import Label
+from flask import request, Blueprint, render_template, redirect
+
+from image_labelling.database import Label, db, LabelEng, LabelPol
 from image_labelling.form import LabelForm
 
 label = Blueprint('label', __name__)
@@ -9,11 +8,38 @@ label = Blueprint('label', __name__)
 
 @label.route("/label", methods=['GET', 'POST'])
 def add_label():
-    form = LabelForm()
-    if request.method == 'POST' and form.validate():
-        parent, name, language = form.data.parent, form.data.name, form.data.language
+    form = LabelForm(request.form)
+
+    if request.method == 'POST' and form.validate_on_submit():
+
+        parent = request.form['parent']
+        name = request.form['name']
+        language = request.form['language']
+
         new_label = Label()
-        form.populate_obj(new_label)
+        if language == 'English':
+            _label = LabelEng()
+            if parent is not None:
+                _parent_id = LabelEng.query.filter_by(text=parent).first()
+
+        if language == 'Polish':
+            _label = LabelPol()
+            if parent is not None:
+                _parent_id = LabelPol.query.filter_by(text=parent).first()
+
+        if _parent_id is not None:
+            new_label.parent_id = _parent_id.label_id
+
+        db.session.add(new_label)
+        db.session.commit()
+
+        _label.label_id = new_label.id
+
+        _label.text = name
+
+        db.session.add(_label)
+        db.session.commit()
+
         return redirect('/label')
 
     return render_template('label.html', form=form)

@@ -3,6 +3,7 @@ from datetime import datetime
 
 import bcrypt
 from flask_login import UserMixin
+from sqlalchemy.orm import relationship
 
 from . import db
 
@@ -97,6 +98,7 @@ class Label(db.Model):
     id = db.Column('id', db.Unicode(128), default=lambda: str(uuid.uuid4()), primary_key=True)
     parent_id = db.Column('parent_id', db.Unicode(128), db.ForeignKey('label.id'))
     category = db.Column('category', db.Unicode(128), default='1')
+    segmentations = relationship("Segmentation")
 
 
 class LabelEng(db.Model):
@@ -118,6 +120,7 @@ class LabelPol(db.Model):
 class ImageGroup(db.Model):
     __tablename__ = 'image_group'
     id = db.Column('id', db.Unicode(128), default=lambda: str(uuid.uuid4()), primary_key=True)
+    images = relationship("Image")
 
 
 class VoteList(db.Model):

@@ -68,6 +68,7 @@ class Segmentation(db.Model):
     __tablename__ = 'segmentation'
     id = db.Column('id', db.Text(length=36), default=lambda: str(uuid.uuid4()), primary_key=True)
     image_id = db.Column('image_id', db.Text(length=36), db.ForeignKey('image.id'), nullable=False)
+    label_id = db.Column('label_id', db.Unicode(128), db.ForeignKey('label.id'), unique=False)
     _obscured = db.Column('is_obscured', db.Boolean, unique=False, default=False)
     bounding_box_x = db.Column('bounding_box_x', db.Integer(), nullable=True, unique=False)
     bounding_box_y = db.Column('bounding_box_y', db.Integer(), nullable=True, unique=False)

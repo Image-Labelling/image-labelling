@@ -3,64 +3,64 @@
 {% import "bootstrap/fixes.html" as fixes %}
 
 {% block head %}
-{{ super() }}
-{{ fixes.ie8() }}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link href="/static/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180">
-<link href="/static/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
-<link href="/static/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png">
-<link href="/static/site.webmanifest" rel="manifest">
+  {{ super() }}
+  {{ fixes.ie8() }}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link href="/static/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180">
+  <link href="/static/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
+  <link href="/static/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png">
+  <link href="/static/site.webmanifest" rel="manifest">
 {%- endblock %}
 
 {% block styles -%}
-{{ super() }}
-<link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
+  {{ super() }}
+  <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
 
-{% block navbar %}
+  {% block navbar %}
 
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="/">Image-Labelling</a>
-    </div>
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="/">Home</a></li>
-      <li><a href="#">Images</a></li>
-      <li><a href="#">Labels</a></li>
-      <li><a href="#">Profile</a></li>
-      <li><a href="/howto">How To</a></li>
-
-    </ul>
-    <form action="/label_search" class="navbar-form navbar-left">
-      <div class="input-group">
-        <input class="form-control" name="text" placeholder="Search a label" type="text">
-        <div class="input-group-btn">
-          <button class="btn btn-default" type="submit">
-            <i class="glyphicon glyphicon-search"></i>
-          </button>
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">Image-Labelling</a>
         </div>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/">Home</a></li>
+          <li><a href="/image_list">Images</a></li>
+          <li><a href="/label_list">Labels</a></li>
+          <li><a href="/profile">Profile</a></li>
+          <li><a href="/howto">How To</a></li>
+
+        </ul>
+        <form action="/label_search" class="navbar-form navbar-left">
+          <div class="input-group">
+            <input class="form-control" name="text" placeholder="Search a label" type="text">
+            <div class="input-group-btn">
+              <button class="btn btn-default" type="submit">
+                <i class="glyphicon glyphicon-search"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+          <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        </ul>
       </div>
-    </form>
-    <ul class="nav navbar-nav navbar-right">
-      <li><a href="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-      <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-    </ul>
+    </nav>
+  {% endblock %}
+
+
+  <div class="container">
+    {% for message in get_flashed_messages() %}
+      <div class="alert alert-warning alert-dismissible show" role="alert">
+        {{ message }}
+      </div>
+    {% endfor %}
   </div>
-</nav>
-{% endblock %}
 
 
-<div class="container">
-  {% for message in get_flashed_messages() %}
-  <div class="alert alert-warning alert-dismissible show" role="alert">
-    {{ message }}
-  </div>
-  {% endfor %}
-</div>
-
-
-{% block content %}{% endblock %}
+  {% block content %}{% endblock %}
 {% endblock %}

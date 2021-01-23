@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms.validators import DataRequired
 from wtforms.fields import StringField, PasswordField, BooleanField, SelectField
+from wtforms.validators import DataRequired
 
 
 class LoginForm(FlaskForm):
@@ -24,3 +24,5 @@ class LabelForm(FlaskForm):
     parent = StringField(label="Parent label")
     name = StringField(label="Label", validators=[DataRequired()])
     language = SelectField(label="Language", choices=["English", "Polish"])
+
+    display = ['parent', 'name', 'language']

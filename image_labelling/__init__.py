@@ -1,12 +1,12 @@
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
-from flask import Flask, url_for, session
+from flask import Flask, session
 from flask_bootstrap import Bootstrap
+from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_principal import Principal
 from flask_session import Session
+from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import CSRFProtect
 from sqlalchemy import MetaData
-
 
 # from sqlalchemy import create_engine
 # from .auth import login_manager
@@ -22,12 +22,12 @@ convention = {
 
 metadata = MetaData(naming_convention=convention)
 
-
 db = SQLAlchemy(metadata=metadata)
 login_manager = LoginManager()
 migrate = Migrate()
 principal = Principal()
 session = Session()
+csrf = CSRFProtect()
 
 
 def create_app():
@@ -56,6 +56,7 @@ def create_app():
     migrate.init_app(app, db, render_as_batch=True)
     principal.init_app(app)
     session.init_app(app)
+    csrf.init_app(app)
 
     from image_labelling.views import blueprints
 
@@ -98,4 +99,4 @@ def create_app():
 #     return app
 if __name__ == '__main__':
     app = create_app()
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', ssl_context='adhoc')

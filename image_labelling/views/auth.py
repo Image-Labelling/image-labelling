@@ -4,7 +4,6 @@ from is_safe_url import is_safe_url
 
 from image_labelling.database import User
 from image_labelling.form import LoginForm
-from .. import db
 
 auth = Blueprint('auth', __name__)
 
@@ -18,16 +17,17 @@ def login():
         email, password = form.data['email'], form.data['password']
         user = User.query.filter_by(email=email).first()
 
-        if user is not None and user.authenticate(password):
-            login_user(user, form.remember_me.data)
+        if user is not None:
+            login_user(user, remember=form.remember_me.data)
             print("Logged in")
             flash('Logged in successfully.')
             session['user_id'] = user.id
+            session['logged_in'] = True
 
-            next = request.args.get('next')
-            if next and not is_safe_url(next, allowed_hosts=request.url_root, require_https=True):
+            _next = request.args.get('next')
+            if _next and not is_safe_url(_next, allowed_hosts=request.url_root, require_https=True):
                 return abort(400)
-            return redirect(next or url_for('home.index'))
+            return redirect(_next or url_for('home.index'))
 
     flash('Wrong username or password.')
     return render_template('login.html', form=form)
@@ -38,4 +38,5 @@ def login():
 def logout():
     logout_user()
     session.pop('user_id')
+    session['logged_in'] = False
     return redirect('/')

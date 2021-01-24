@@ -66,6 +66,12 @@ def create_app():
 
     db.create_all(app=app)
 
+    from .database import User
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(user_id)
+
     # with app.app_context():
     #     from . import routes
     #     from . import auth

@@ -100,6 +100,7 @@ class Label(db.Model):
     parent_id = db.Column('parent_id', db.Unicode(128), db.ForeignKey('label.id'))
     category = db.Column('category', db.Unicode(128), default='1')
     segmentations = relationship("Segmentation")
+    parent = relationship('Label', remote_side=id, backref='children')
 
 
 class LabelEng(db.Model):

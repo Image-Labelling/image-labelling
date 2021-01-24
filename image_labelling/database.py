@@ -63,6 +63,7 @@ class Image(db.Model):
     user_id = db.Column('user_id', db.Unicode(128), db.ForeignKey('user.id'), nullable=True)
     license = db.Column('license_type', db.Unicode(128), nullable=True, unique=False)
     group_id = db.Column('group_id', db.Unicode(128), db.ForeignKey('image_group.id'), nullable=True)
+    uploaded = db.Column('uploaded_on', db.DateTime, default=datetime.utcnow)
 
 
 class Segmentation(db.Model):

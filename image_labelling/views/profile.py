@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import current_user
 
 from ..database import Image
@@ -15,7 +15,8 @@ def show_profile():
         if current_user is not None and hasattr(current_user, 'id'):
             _user_id = current_user.id
         else:
-            _user_id = '0'
+            flash("You need to log in to view your profile.")
+            return redirect(url_for('home.index'))
 
     username = User.query.filter_by(id=_user_id).first().username
     upload_count = Image.query.filter_by(user_id=_user_id).count()

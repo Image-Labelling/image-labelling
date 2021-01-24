@@ -1,12 +1,11 @@
+import errno
 import hashlib
 import os
-import errno
 
+from PIL import Image as PILImage
 from flask import current_app
 from flask import request, Blueprint, render_template, flash, redirect, session
-from flask_login import login_required
 from werkzeug.utils import secure_filename
-from PIL import Image as PILImage
 
 from ..database import Image, db
 
@@ -57,7 +56,7 @@ def uploader_form():
 
             _exists = Image.query.filter_by(id=img_key).first()
             if _exists:
-                return 'file already exists'
+                return render_template('upload_error.html', error="File already uploaded before.")
 
             image = Image(id=img_key, user_id=session['user_id'])
             db.session.add(image)
@@ -90,6 +89,6 @@ def uploader_form():
                 print(repr(e))
                 print("Cannot create thumbnail")
 
-            return 'file uploaded successfully'
+            return redirect('/image?image_id=' + img_key)
         else:
-            return 'filetype not allowed'
+            return render_template('upload_error.html', error="Filetype not allowed.")

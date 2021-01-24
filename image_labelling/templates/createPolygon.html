@@ -2,6 +2,7 @@
 
 
 {% block body %}
+
 <body onload="reset_all()">
 {% block navbar %}
 
@@ -54,7 +55,7 @@ window.addEventListener('click', clickListener, false);</script>
   <br/>
   <canvas
     data-imgsrc="data/{{ image_id[0] }}/{{ image_id[0:4] }}/{{ image_id[4:8] }}/{{ image_id }}"
-          id="labelCanvas" oncontextmenu="return false;"
+    id="labelCanvas" oncontextmenu="return false;"
     onmousedown="new_segment(event)" style="cursor:crosshair"></canvas>
   <div><textarea disabled="disabled" id="coords"></textarea></div>
   <script src="../static/js/Polygon.js" type="text/javascript"></script>

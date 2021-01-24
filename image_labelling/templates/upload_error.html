@@ -2,7 +2,7 @@
 
 {% block content %}
   <div class="container">
-    <div class="alert alert-warning"><strong>Warning!</strong> This type of file is not supported.</div>
-    <p>Return to <a href="/ipload">the upload page.</a></p>
+    <div class="alert alert-warning"><strong>Warning!</strong> {{ error }}</div>
+    <p>Return to <a href="/upload">the upload page.</a></p>
   </div>
 {% endblock %}

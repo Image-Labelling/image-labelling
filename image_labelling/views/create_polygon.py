@@ -1,7 +1,9 @@
-from flask import Blueprint, render_template, request
-from ..database import Point, Segmentation
-from .. import db
 import sys
+
+from flask import Blueprint, render_template, request, redirect
+
+from .. import db
+from ..database import Point, Segmentation
 
 create_polygon = Blueprint('create_polygon', __name__)
 
@@ -9,8 +11,6 @@ create_polygon = Blueprint('create_polygon', __name__)
 @create_polygon.route("/createpolygon", methods=['GET', 'POST'])
 def createpolygon():
     _image_id = request.args.get('image_id', type=str)
-
-    print(request)
 
     if request.method == 'POST':
         x_min = sys.maxsize
@@ -22,9 +22,6 @@ def createpolygon():
         _segmentation.image_id = _image_id
         db.session.add(_segmentation)
         db.session.commit()
-        print(request.json)
-        print(request.data)
-        print(request.form)
         i = 0
         for row in request.json:
 
@@ -54,6 +51,6 @@ def createpolygon():
         _segmentation.bounding_box_height = int(y_max - y_min)
 
         db.session.commit()
-        return "a"
+        return redirect('/image?image_id=' + _image_id)
 
     return render_template("createPolygon.html", image_id=_image_id)

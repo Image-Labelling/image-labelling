@@ -17,4 +17,20 @@ def show_image():
 
 @image.route('/image_list')
 def image_list():
-    return "Here's 20 images"
+    if 'page' in request.args:
+        _page = request.args.get('page', type=int)
+        if _page < 1:
+            _page = 1
+    else:
+        _page = 1
+    uploaded_images = Image.query.order_by(Image.uploaded.desc()).paginate(page=_page, per_page=20, error_out=False)
+    if uploaded_images.has_next:
+        next_url = url_for('image.image_list', page=uploaded_images.next_num)
+    else:
+        next_url = None
+    if uploaded_images.has_prev:
+        prev_url = url_for('image.image_list', page=uploaded_images.prev_num)
+    else:
+        prev_url = None
+
+    return render_template('image_list.html', uploaded_images=uploaded_images, next_url=next_url, prev_url=prev_url)

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container-fluid">
+    <h1>Uploaded images</h1>
+    <a href="/upload">Upload new image</a>
+    <div style="width: 100%; overflow: hidden;">
+      {% for image in uploaded_images.items %}
+        <div class="well" style="width: 300px; float: left; height: 300px">
+          <a href="/image?image_id={{ image.id }}">
+            <img src="data/thumb/{{ image.id[0] }}/{{ image.id[0:4] }}/{{ image.id[4:8] }}/{{ image.id }}.png">
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="row container-fluid">
+    <div class="col-md-3">
+      {% if prev_url %}
+        <a href="{{ prev_url }}">Newer images</a>
+      {% endif %}
+    </div>
+    <div class="col-md-6 text-center">Go to</div>
+    <div class="col-md-3">
+      {% if next_url %}
+        <a href="{{ next_url }}">Older images</a>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

@@ -4,21 +4,16 @@ import os
 
 from PIL import Image as PILImage
 from flask import current_app
-from flask import request, Blueprint, render_template, flash, redirect, session
+from flask import request, Blueprint, render_template, flash, redirect, session, Markup
+from flask_login import login_required
 from werkzeug.utils import secure_filename
 
 from ..database import Image, db
-
-# from .. import login_manager
-# from . import login_manager
 
 upload = Blueprint('upload', __name__)
 
 thumbnail_dir = 'thumb'
 thumbnail_size = (256, 256)
-
-
-# login_manager=LoginManager()
 
 
 def allowed_file(filename):
@@ -28,7 +23,7 @@ def allowed_file(filename):
 
 
 @upload.route('/upload')
-# @login_required
+@login_required
 def upload_file():
     return render_template('upload.html')
 
@@ -89,6 +84,7 @@ def uploader_form():
                 print(repr(e))
                 print("Cannot create thumbnail")
 
-            return redirect('/image?image_id=' + img_key)
+            flash(Markup("Image uploaded successfully! See it <a href=/image?image_id=" + img_key + ">here!</a>"))
+            return redirect('/upload')
         else:
             return render_template('upload_error.html', error="Filetype not allowed.")

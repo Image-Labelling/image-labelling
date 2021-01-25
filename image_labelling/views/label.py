@@ -101,3 +101,29 @@ def label_search():
 @label.route('/label_list')
 def label_list():
     return "Here's some labels"
+
+
+@label.route('/label_tree')
+def label_tree():
+    if 'label_id' in request.args:
+        _label_id = request.args.get('label_id')
+        _label = Label.query \
+            .options(db.joinedload(Label.id == LabelEng.label_id)) \
+            .filter_by(id=_label_id) \
+            .first()
+        _children = db.session.query(Label, LabelEng).filter_by(id=_label_id) \
+            .join(LabelEng) \
+            .first()
+
+        result = db.engine.execute(
+            "SELECT label.id, label_eng.text FROM label JOIN label_eng ON label.id = label_eng.label_id WHERE label.id ='" + _label_id + "'")
+
+        result2 = db.engine.execute(
+            "SELECT label.id, label_eng.text FROM label JOIN label_eng ON label.id = label_eng.label_id WHERE label.parent_id ='" + _label_id + "'"
+        )
+    else:
+        return '500 BAD PATH'
+
+    print(_label)
+
+    return render_template("label_tree.html", label=_label, children=_children, result=result, result2=result2)

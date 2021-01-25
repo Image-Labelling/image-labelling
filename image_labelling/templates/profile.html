@@ -2,7 +2,7 @@
 
 {% block content %}
   <div class="container-fluid">
-    <p>User <strong>{{ username }}</strong> uploaded <strong>{{ upload_count }}</strong> images.</p>
+    <h1>User <strong>{{ username }}</strong> uploaded <strong>{{ upload_count }}</strong> images.</h1>
     <p>Recent uploads</p>
     <div style="width: 100%; overflow: hidden;">
       {% for image in uploaded_images.items %}

@@ -1,4 +1,4 @@
-from flask import request, Blueprint, render_template, redirect, flash
+from flask import request, Blueprint, render_template, redirect
 
 from image_labelling.database import Label, db, LabelEng, LabelPol
 from image_labelling.form import LabelForm, LabelAssignForm
@@ -86,8 +86,8 @@ def label_assign():
             return render_template("label_assign.html", form=form)
 
     else:
-        flash("You need an existing segmentation to assign a label.")
-        return "500"
+        error = "You need an existing segmentation to assign a label."
+        return render_template("label_error.html", error=error)
 
 
 @label.route('/label_search')

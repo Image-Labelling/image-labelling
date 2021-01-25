@@ -1,7 +1,8 @@
-from flask import request, Blueprint, render_template, redirect
+from flask import request, Blueprint, render_template, redirect, flash
 
 from image_labelling.database import Label, db, LabelEng, LabelPol
-from image_labelling.form import LabelForm
+from image_labelling.form import LabelForm, LabelAssignForm
+from ..database import Segmentation
 
 label = Blueprint('label', __name__)
 

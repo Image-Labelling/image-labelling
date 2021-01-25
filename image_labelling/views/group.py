@@ -1,6 +1,5 @@
-from flask import Flask, render_template, request, Blueprint, render_template, flash, redirect
-from flask import current_app
-from flask_login import LoginManager, login_required
+from flask import request, Blueprint, render_template, redirect
+
 from image_labelling.database import Label
 from image_labelling.form import LabelForm
 

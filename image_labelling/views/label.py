@@ -59,6 +59,37 @@ def label_change():
     return '500 BAD PATH'
 
 
+@label.route('/label_assign', methods=['GET', 'POST'])
+def label_assign():
+    form = LabelAssignForm(request.form)
+    if 'segmentation_id' in request.args:
+        _segmentation_id = request.args.get('segmentation_id')
+        if request.method == 'POST' and form.validate_on_submit():
+
+            name = request.form['name']
+            language = request.form['language']
+
+            _segmentation = Segmentation.query.filter_by(id=_segmentation_id).first()
+            if language == 'English':
+                _label = LabelEng.query.filter_by(text=name).first()
+
+            if language == 'Polish':
+                _label = LabelPol.query.filter_by(text=name).first()
+
+            _segmentation.label_id = _label.label_id
+
+            db.session.commit()
+
+            return redirect('/image?image_id=' + _segmentation.image_id)
+
+        else:
+            return render_template("label_assign.html", form=form)
+
+    else:
+        flash("You need an existing segmentation to assign a label.")
+        return "500"
+
+
 @label.route('/label_search')
 def label_search():
     if 'text' in request.args:

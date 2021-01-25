@@ -26,3 +26,10 @@ class LabelForm(FlaskForm):
     language = SelectField(label="Language", choices=["English", "Polish"])
 
     display = ['parent', 'name', 'language']
+
+
+class LabelAssignForm(FlaskForm):
+    name = StringField(label="Label", validators=[DataRequired()])
+    language = SelectField(label="Language", choices=["English", "Polish"])
+
+    display = ['name', 'language']

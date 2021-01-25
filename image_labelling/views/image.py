@@ -9,10 +9,25 @@ image = Blueprint('image', __name__)
 def show_image():
     if 'image_id' in request.args:
         _image_id = request.args.get('image_id')
-        return "Fancy page that shows you stuff based on image_id."
+
+        if 'lang' in request.args:
+            lang = request.args.get('lang')
+            if lang == 'pl':
+                LabelTable = LabelPol
+            else:
+                LabelTable = LabelEng
+        else:
+            lang = 'en'
+            LabelTable = LabelEng
+
+        q = db.session.query(Segmentation, LabelTable) \
+            .outerjoin(LabelTable, Segmentation.label_id == LabelTable.label_id) \
+            .filter(Segmentation.image_id == _image_id).all()
+
+        return render_template('image.html', image_id=_image_id, segmentations=q, lang=lang)
 
     else:
-        return "Ya need an image id, dingus."
+        return render_template('image_error.html')
 
 
 @image.route('/image_list')

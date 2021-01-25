@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container-fluid">
+
+    <h1>Search results:</h1>
+
+    {% if error %}
+      <h2>{{ error }}</h2>
+    {% else %}
+
+      {% for label in eng %}
+        <p><a href="/label_tree?label_id={{ label.label_id }}">{{ label.text }}</a></p>
+      {% endfor %}
+      {% for label in pol %}
+        <p><a href="/label_tree?label_id={{ label.label_id }}">{{ label.text }}</a></p>
+      {% endfor %}
+    {% endif %}
+
+  </div>
+{% endblock %}

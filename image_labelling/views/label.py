@@ -93,9 +93,18 @@ def label_assign():
 @label.route('/label_search')
 def label_search():
     if 'text' in request.args:
-        return "Here's label " + request.args.get('text')
+        _text = request.args.get('text')
+        _eng = LabelEng.query.filter(LabelEng.text.ilike(_text)).all()
+        _pol = LabelPol.query.filter(LabelPol.text.ilike(_text)).all()
+
+        if _eng or _pol:
+            return render_template("label_search.html", eng=_eng, pol=_pol, error=None)
+        else:
+            error = "Unable to find " + _text
+            return render_template("label_search.html", eng=None, pol=None, error=error)
     else:
-        return "I can't search for nothing"
+        error = "Unable to search for nothing."
+        return render_template("label_error.html", error=error)
 
 
 @label.route('/label_list')

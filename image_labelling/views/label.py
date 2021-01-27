@@ -1,4 +1,4 @@
-from flask import request, Blueprint, render_template, redirect
+from flask import request, Blueprint, render_template, redirect, url_for, flash
 
 from image_labelling.database import Label, db, LabelEng, LabelPol
 from image_labelling.form import LabelForm, LabelAssignForm
@@ -41,6 +41,7 @@ def add_label():
         db.session.add(_label)
         db.session.commit()
 
+        flash("Label added successfully.")
         return redirect('/label')
 
     return render_template('label.html', form=form)
@@ -109,7 +110,32 @@ def label_search():
 
 @label.route('/label_list')
 def label_list():
-    return "Here's some labels"
+    if 'page' in request.args:
+        _page = request.args.get('page', type=int)
+        if _page < 1:
+            _page = 1
+    else:
+        _page = 1
+    if 'lang' in request.args:
+        _lang = request.args.get('lang', type=str)
+    else:
+        _lang = 'en'
+
+    if _lang == 'pl':
+        _labels = LabelPol.query.paginate(page=_page, per_page=50, error_out=False)
+    else:
+        _labels = LabelEng.query.paginate(page=_page, per_page=50, error_out=False)
+
+    if _labels.has_next:
+        next_url = url_for('label.label_list', page=_labels.next_num)
+    else:
+        next_url = None
+    if _labels.has_prev:
+        prev_url = url_for('label.label_list', page=_labels.prev_num)
+    else:
+        prev_url = None
+
+    return render_template('label_list.html', labels=_labels, next_url=next_url, prev_url=prev_url, lang=_lang)
 
 
 @label.route('/label_tree')

@@ -87,6 +87,14 @@ class Point(db.Model):
     x_coord = db.Column('x', db.Integer(), nullable=False, unique=False)
     y_coord = db.Column('y', db.Integer(), nullable=False, unique=False)
 
+    @property
+    def serialized(self):
+        return {
+            'order': self.order,
+            'x': self.x_coord,
+            'y': self.y_coord
+        }
+
 
 class License(db.Model):
     __tablename__ = 'license'

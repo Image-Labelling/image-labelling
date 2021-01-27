@@ -2,9 +2,7 @@ import bcrypt
 from flask import Blueprint, redirect, render_template, request, flash
 
 from image_labelling.database import User
-# from image_labelling.database import User
 from image_labelling.form import UserForm
-# from image_labelling.auth import admin_required
 from .. import db
 from ..auth import admin_required
 
@@ -13,9 +11,9 @@ users = Blueprint('users', __name__)
 
 @users.route('/users')
 @admin_required
-def _users():
-    users = db.session.query(User)
-    return render_template("users.html", users=users)
+def show_users():
+    _users = db.session.query(User)
+    return render_template("users.html", users=_users)
 
 
 @users.route('/register', methods=['GET', 'POST'])

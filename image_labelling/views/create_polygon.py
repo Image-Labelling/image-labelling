@@ -2,6 +2,7 @@ import sys
 
 from flask import Blueprint, render_template, request, redirect
 
+from .. import csrf
 from .. import db
 from ..database import Point, Segmentation
 
@@ -9,7 +10,10 @@ create_polygon = Blueprint('create_polygon', __name__)
 
 
 @create_polygon.route("/createpolygon", methods=['GET', 'POST'])
+@csrf.exempt
 def createpolygon():
+    if 'image_id' not in request.args:
+        return 500
     _image_id = request.args.get('image_id', type=str)
 
     if request.method == 'POST':

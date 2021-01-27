@@ -177,9 +177,9 @@ function submit() {
         alert("Polygon is not completed yet.")
         return false;
     }
-    // var vertices_data = serialize();
     $.ajax({
         type: 'post',
+        crossDomain: true,
         contentType: 'application/json',
         data: JSON.stringify(vertices)
     })

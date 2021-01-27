@@ -36,6 +36,10 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
+    @property
+    def is_admin(self):
+        return self._admin
+
 
 class Image(db.Model):
     __tablename__ = 'image'

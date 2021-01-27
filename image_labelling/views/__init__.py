@@ -6,8 +6,9 @@ from .howto import howto
 from .image import image
 from .label import label
 from .profile import profile
+from .segmentation import segmentation
 from .send_files import send_file
 from .upload import upload
 from .users import users
 
-blueprints = [home, auth, users, upload, label, create_polygon, send_file, howto, profile, image, group]
+blueprints = [home, auth, users, upload, label, create_polygon, send_file, howto, profile, image, group, segmentation]

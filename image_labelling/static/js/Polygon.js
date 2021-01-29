@@ -9,13 +9,6 @@ function reset_all() {
     ctx = undefined;
     _closed = false;
     draw_polygon(true);
-    if (vertices.length === 0) {
-        document.getElementById('coords').value = '';
-
-    } else {
-        document.getElementById('coords').value = JSON.stringify(vertices);
-    }
-
 }
 
 function undo() {
@@ -23,13 +16,6 @@ function undo() {
     vertices.pop();
     _closed = false;
     draw_polygon(true);
-    if (vertices.length === 0) {
-        document.getElementById('coords').value = '';
-
-    } else {
-        document.getElementById('coords').value = JSON.stringify(vertices);
-    }
-
 }
 
 
@@ -72,16 +58,7 @@ function draw(end) {
         _closed = true;
     }
 
-
     ctx.stroke();
-
-    if (vertices.length === 0) {
-        document.getElementById('coords').value = '';
-
-    } else {
-        document.getElementById('coords').value = JSON.stringify(vertices);
-    }
-
 }
 
 function check_intersecting(x, y) {

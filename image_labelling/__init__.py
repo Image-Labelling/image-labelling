@@ -8,10 +8,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 from sqlalchemy import MetaData
 
-# from sqlalchemy import create_engine
-# from .auth import login_manager
-# from .database import db
-
 convention = {
     "ix": 'ix_%(column_0_label)s',
     "uq": "uq_%(table_name)s_%(column_0_name)s",
@@ -72,37 +68,9 @@ def create_app():
     def load_user(user_id):
         return User.query.get(user_id)
 
-    # with app.app_context():
-    #     from . import routes
-    #     from . import auth
-    #     from .assets import compile_assets
-
-    #     # Register Blueprints
-    #     app.register_blueprint(routes.main_bp)
-    #     app.register_blueprint(auth.auth_bp)
-
-    #     # Create Database Models
-    #     db.create_all()
-
-    #     # Compile static assets
-    #     if app.config['FLASK_ENV'] == 'development':
-    #         compile_assets(app)
-
-    #     return app
-
     return app
 
 
-# def create_app():
-#     """Create app instance"""
-#     app = Flask(__name__)
-
-
-#     db.init_app(app)
-#     login_manager.init_app(app)
-#     db.create_all(app=app)
-
-#     return app
 if __name__ == '__main__':
     app = create_app()
     app.run(host='0.0.0.0', ssl_context='adhoc')
